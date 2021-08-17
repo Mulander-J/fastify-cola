@@ -12,6 +12,35 @@ module.exports = {
             }
         }
     },
+    logger: {
+        //  setup pino-pretty
+        prettyPrint: {
+            colorize: true,
+            timestampKey: 'time',
+            translateTime : 'yyyy-mm-dd HH:MM:ss.l',
+            messageFormat: '{msg}',
+            // file : 'D://Test//test.log', //此处设置log文件输出路径
+            // logrotator : {  // 设置按什么归档日志
+            //   byDay: true,
+            //   dayDelimiter: '_'
+            // },
+            // maxBufferLength: 4096,
+            // flushInterval: 1000,
+        }
+    },
+    cors: {},
+    helmet: {
+        contentSecurityPolicy: false
+    },
+    compress: { global: true },
+    pressure: {
+        maxEventLoopDelay: 1000,
+        maxHeapUsedBytes: 100000000,
+        maxRssBytes: 100000000,
+        maxEventLoopUtilization: 0.98,
+        message: 'Under pressure!',
+        retryAfter: 50
+    },
     swaggerDoc:{
         routePrefix: '/documentation',
         exposeRoute: true,
@@ -35,31 +64,5 @@ module.exports = {
             consumes: ['application/json'],
             produces: ['application/json']
         }
-    },
-    logger: {
-        //  setup pino-pretty
-        prettyPrint: {
-            colorize: true,
-            timestampKey: 'time',
-            translateTime : 'yyyy-mm-dd HH:MM:ss.l',
-            messageFormat: '{msg}',
-            // file : 'D://Test//test.log', //此处设置log文件输出路径
-            // logrotator : {  // 设置按什么归档日志
-            //   byDay: true,
-            //   dayDelimiter: '_'
-            // },
-            // maxBufferLength: 4096,
-            // flushInterval: 1000,
-        }
-    },
-    cors: {},
-    compress: { global: true },
-    pressure: {
-        maxEventLoopDelay: 1000,
-        maxHeapUsedBytes: 100000000,
-        maxRssBytes: 100000000,
-        maxEventLoopUtilization: 0.98,
-        message: 'Under pressure!',
-        retryAfter: 50
     }
 }

@@ -36,7 +36,7 @@ async function start () {
     // Register Cors (https://github.com/fastify/fastify-cors)
     .register(require('fastify-cors'), conf.cors)
     // Register helmet (https://github.com/fastify/fastify-helmet)
-    // .register(require('fastify-helmet'),{})
+    .register(require('fastify-helmet'), conf.helmet)
     // Register Compress (https://github.com/fastify/fastify-compress)
     .register(require('fastify-compress'), conf.compress)
     // Register Pressure (https://github.com/fastify/under-pressure)
