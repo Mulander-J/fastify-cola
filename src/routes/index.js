@@ -45,6 +45,12 @@ const routeTask = [
   },
   {
     method: 'GET',
+    url: '/api/taskHeads',
+    handler: taskController.getTaskHeads,
+    schema: apiSchema.taskApi.heads
+  },
+  {
+    method: 'GET',
     url: '/api/task',
     handler: taskController.getTasks,
     schema: apiSchema.taskApi.list

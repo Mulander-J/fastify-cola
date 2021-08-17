@@ -21,16 +21,30 @@ exports.getTaskByTree = async (req, reply) => {
     throw boom.boomify(err)
   }
 }
+// Get all task heads
+exports.getTaskHeads = async (req, reply) => {
+  try { 
+    const filterKeys = ["team_id","title","priority","status"]
+    let filters = {}
+    filterKeys.forEach(k=>{
+      req.query[k] && (filters[k] = req.query[k])
+    })
+
+    const tasks = await Task.getChildrenTree({
+      minLevel: 1,
+      maxLevel: 1,
+      filters
+    })
+    return tasks
+  } catch (err) {
+    throw boom.boomify(err)
+  }
+}
 
 // Get all tasks
 exports.getTasks = async (req, reply) => {
   try {
-    const {team_id} = req.query
-
-    let param = {}
-    team_id && (param.team_id = team_id)
-
-    const tasks = await Task.find(param)
+    const tasks = await Task.find()
     return tasks
   } catch (err) {
     throw boom.boomify(err)

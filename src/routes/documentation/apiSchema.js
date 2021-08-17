@@ -47,6 +47,21 @@ const BODY_TASK = {
   }
 }
 exports.taskApi = {
+  heads: {
+    description: `Get ${TAG_TASK} heads`,
+    tags: [TAG_TEAM, TAG_TASK],
+    summary: `Get the top ${TAG_TASK} head list`,
+    querystring: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        team_id: { type: 'string' },
+        title: { type: 'string' },
+        priority: { type: 'integer', minimum: 1, maximum: 5 },
+        status: { type: 'integer', minimum: 1, maximum: 5 }
+      }
+    }
+  },
   tree: { 
     ...generateBase('tree',TAG_TASK),
     querystring: {
@@ -57,19 +72,6 @@ exports.taskApi = {
       }
     }
   },
-  list: {
-    ...generateBase('list',TAG_TASK,[TAG_TEAM]),
-    querystring: {
-      type: 'object',
-      required: ['team_id'],
-      additionalProperties: false,
-      properties: {
-        team_id: { type: 'string' }
-      }
-    }
-  },
-  item: generateBase('item',TAG_TASK),
-  delete: generateBase('delete',TAG_TASK),
   add: {
     ...generateBase('add',TAG_TASK),
     body: BODY_TASK,
@@ -85,4 +87,7 @@ exports.taskApi = {
     ...generateBase('update',TAG_TASK),
     body: BODY_TASK
   },
+  list: generateBase('list',TAG_TASK),
+  item: generateBase('item',TAG_TASK),
+  delete: generateBase('delete',TAG_TASK)
 }
