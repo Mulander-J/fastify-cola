@@ -1,0 +1,32 @@
+{
+  "name": "fastify-api",
+  "version": "1.0.0",
+  "description": "A blazing fast REST APIs with Node.js, MongoDB, Fastify and Swagger.",
+  "author": "Mulander-J <mulander_j@outlook.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "bootstrap": "npm install",
+    "clean": "rimraf node_modules & rm -r package-lock.json & npm cache clean --force",
+    "start": "./node_modules/nodemon/bin/nodemon.js ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "boom": "^7.2.2",
+    "fastify": "3.20.1",
+    "fastify-compress": "3.6.0",
+    "fastify-env": "2.1.1",
+    "fastify-helmet": "5.3.2",
+    "fastify-mongodb": "^0.9.1",
+    "fastify-swagger": "^0.15.3",
+    "fastify-plugin": "3.0.0",
+    "fastify-cors": "6.0.2",
+    "mongoose": "^5.3.14",
+    "mongoose-mpath": "2.4.11",
+    "pino-pretty": "5.1.3",
+    "under-pressure": "5.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.7"
+  }
+}
