@@ -41,23 +41,38 @@ module.exports = {
         message: 'Under pressure!',
         retryAfter: 50
     },
+    rateLimit: {
+        max: 100,
+        timeWindow: 1000 * 60
+    },
+    file: {
+        // limits: {
+        //     fieldNameSize: 100, // Max field name size in bytes
+        //     fieldSize: 100,     // Max field value size in bytes
+        //     fields: 10,         // Max number of non-file fields
+        //     fileSize: 1000000,  // For multipart forms, the max file size in bytes
+        //     files: 1,           // Max number of file fields
+        //     headerPairs: 2000   // Max number of header key=>value pairs
+        // }
+    },
     swaggerDoc:{
         routePrefix: '/documentation',
         exposeRoute: true,
         swagger: {
             info: {
-            title: 'Fastify API',
-            description: 'Building a blazing fast REST API with Node.js, MongoDB, Fastify and Swagger',
-            version: '1.0.0'
+                title: 'Fastify API',
+                description: 'Building a blazing fast REST API with Node.js, MongoDB, Fastify and Swagger',
+                version: '1.0.0'
             },
             externalDocs: {
-            url: 'https://swagger.io',
-            description: 'Find more info here'
+                url: 'https://swagger.io',
+                description: 'Find more info here'
             },
             tags: [
-            { name: 'user', description: 'User related end-points' },
-            { name: 'team', description: 'Team related end-points' },
-            { name: 'task', description: 'Task related end-points' }
+                { name: 'common', description: 'Common related end-points' },
+                { name: 'user', description: 'User related end-points' },
+                { name: 'team', description: 'Team related end-points' },
+                { name: 'task', description: 'Task related end-points' },
             ],
             host: 'localhost:3000',
             schemes: ['http'],

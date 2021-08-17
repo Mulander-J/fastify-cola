@@ -1,9 +1,57 @@
 // Import Swagger documentation
 const apiSchema = require('./documentation/apiSchema')
 // Import our Controllers
-const teamController = require('../controllers/teamController')
-const taskController = require('../controllers/taskController')
+const commonController = require('../controllers/commonCtrller')
+const userController = require('../controllers/userCtrller')
+const teamController = require('../controllers/teamCtrller')
+const taskController = require('../controllers/taskCtrller')
 
+const routeCommon = [
+  {
+    method: 'POST',
+    url: '/api/token',
+    handler: commonController.getToken,
+    schema: apiSchema.commonApi.token
+  },
+  {
+    method: 'POST',
+    url: '/api/avatar',
+    handler: commonController.uploadAvatar,
+    schema: apiSchema.commonApi.file
+  },
+]
+const routeUser = [
+  {
+    method: 'GET',
+    url: '/api/user',
+    handler: userController.getUsers,
+    schema: apiSchema.userApi.list
+  },
+  {
+    method: 'GET',
+    url: '/api/user/:id',
+    handler: userController.getSingleUser,
+    schema: apiSchema.userApi.item
+  },
+  {
+    method: 'POST',
+    url: '/api/user',
+    handler: userController.addUser,
+    schema: apiSchema.userApi.add
+  },
+  {
+    method: 'PUT',
+    url: '/api/user/:id',
+    handler: userController.updateUser,
+    schema: apiSchema.userApi.update
+  },
+  {
+    method: 'DELETE',
+    url: '/api/user/:id',
+    handler: userController.deleteUser,
+    schema: apiSchema.userApi.delete
+  }
+]
 const routeTeam = [
   {
     method: 'GET',
@@ -81,6 +129,8 @@ const routeTask = [
   }
 ]
 const routes = [
+  ...routeCommon,
+  ...routeUser,
   ...routeTeam,
   ...routeTask
 ]

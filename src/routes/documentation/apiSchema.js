@@ -1,4 +1,51 @@
-const {paramId,generateBase} = require('./descHelper')
+const {generateBase} = require('./descHelper')
+
+const TAG_COMMON = 'common'
+exports.commonApi = {
+  token: {
+    description: `Get token`,
+    tags: [TAG_COMMON],
+    summary: `Get the user token of session-key`,
+    body: {
+      type: 'object',
+      properties: {
+        app_id: { type: 'string' },
+        app_secret: { type: 'string' },
+        js_code: { type: 'string' },
+      }
+    }
+  },
+  file: {
+    description: `Upload file`,
+    tags: [TAG_COMMON],
+    summary: `Upload your file`
+  },
+}
+
+const TAG_USER = 'user'
+const BODY_USER = {
+  type: 'object',
+  properties: {
+    name: { type: 'string' },
+    pwd: { type: 'string' },
+    email: { type: 'string' },
+    avatar: { type: 'string' },
+    options: { type: 'object' }
+  }
+}
+exports.userApi = {
+  list: generateBase('list',TAG_USER),
+  item: generateBase('item',TAG_USER),
+  delete: generateBase('delete',TAG_USER),
+  add: {
+    ...generateBase('add',TAG_USER),
+    body: BODY_USER
+  },
+  update: {
+    ...generateBase('update',TAG_USER),
+    body: BODY_USER
+  },
+}
 
 const TAG_TEAM = 'team'
 const BODY_TEAM = {

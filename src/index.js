@@ -41,11 +41,22 @@ async function start () {
     .register(require('fastify-compress'), conf.compress)
     // Register Pressure (https://github.com/fastify/under-pressure)
     .register(require('under-pressure'), conf.pressure)
+    // Register Rate-limit (https://github.com/fastify/fastify-rate-limit)
+    .register(require('fastify-rate-limit'), conf.rateLimit)
+    // Register Multipart (https://github.com/fastify/fastify-multipart)
+    .register(require('fastify-multipart'), conf.file)
     // Register Swagger (https://github.com/fastify/fastify-swagger)
     .register(fp(injectSwagger))
     .register(fp(connectDB))
 
   console.info("==============>fastify.config",fastify.config)
+
+  fastify.setErrorHandler(function (error, request, reply) {
+    if (reply.statusCode === 429) {
+      error.message = 'You hit the rate limit! Slow down please!'
+    }
+    reply.send(error)
+  })
 
   // Loop over each route
   routes.forEach(route => {
@@ -55,6 +66,7 @@ async function start () {
   try {
     await fastify.listen(fastify.config.APP_PORT, fastify.config.APP_HOST)
     fastify.swagger()
+    console.info(`==============>Swagger-Url | http://${fastify.config.APP_SWAGGER_URL}${conf.swaggerDoc.routePrefix}`)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
