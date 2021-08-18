@@ -20,6 +20,11 @@ exports.commonApi = {
     tags: [TAG_COMMON],
     summary: `Upload your file`
   },
+  public: {
+    description: `Get file`,
+    tags: [TAG_COMMON],
+    summary: `Get your file with the filename`
+  }
 }
 
 const TAG_USER = 'user'

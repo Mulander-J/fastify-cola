@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
     env: {
         dotenv: true,
@@ -55,6 +57,10 @@ module.exports = {
         //     headerPairs: 2000   // Max number of header key=>value pairs
         // }
     },
+    staticFile: {
+        root: path.join(__dirname, '../../public'),
+        prefix: '/', // optional: default '/'
+      },
     swaggerDoc:{
         routePrefix: '/documentation',
         exposeRoute: true,

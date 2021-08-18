@@ -15,9 +15,15 @@ const routeCommon = [
   },
   {
     method: 'POST',
-    url: '/api/avatar',
-    handler: commonController.uploadAvatar,
+    url: '/api/file',
+    handler: commonController.uploadFile,
     schema: apiSchema.commonApi.file
+  },
+  {
+    method: 'GET',
+    url: '/api/public/:file',
+    handler: commonController.getFile,
+    schema: apiSchema.commonApi.public
   },
 ]
 const routeUser = [
