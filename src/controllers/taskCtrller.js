@@ -97,7 +97,6 @@ exports.addTask = async (req, reply) => {
       }
       return res
     }
-    return task.save()
   } catch (err) {
     throw boom.boomify(err)
   }
