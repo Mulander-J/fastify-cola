@@ -2,19 +2,6 @@ const {generateBase} = require('./descHelper')
 
 const TAG_COMMON = 'common'
 exports.commonApi = {
-  token: {
-    description: `Get token`,
-    tags: [TAG_COMMON],
-    summary: `Get the user token of session-key`,
-    body: {
-      type: 'object',
-      properties: {
-        app_id: { type: 'string' },
-        app_secret: { type: 'string' },
-        js_code: { type: 'string' },
-      }
-    }
-  },
   file: {
     description: `Upload file`,
     tags: [TAG_COMMON],
@@ -39,7 +26,38 @@ const BODY_USER = {
   }
 }
 exports.userApi = {
-  list: generateBase('list',TAG_USER),
+  login: {
+    description: `Login`,
+    tags: [TAG_USER],
+    summary: `Login with mini-program-code`,
+    body: {
+      type: 'object',
+      required: ['js_code','name','pwd'],
+      properties: {
+        js_code: { type: 'string' },
+        name: { type: 'string' },
+        pwd: { type: 'string' }
+      }
+    }
+  },
+  list: {
+    ...generateBase('list',TAG_USER),
+    response: {
+      200: {
+        type: 'array',
+        items:{ 
+          type:'object',
+          properties: {
+            '_id': { type: 'string' },
+            'name': { type: 'string' },
+            'email': { type: 'string' },
+            'avatar': { type: 'string' },
+            'isActive': { type: 'boolean' }
+          }
+        }
+      }
+    }
+  },
   item: generateBase('item',TAG_USER),
   delete: generateBase('delete',TAG_USER),
   add: {
@@ -80,21 +98,21 @@ const TAG_TASK = 'task'
 const BODY_TASK = {
   type: 'object',
   properties: {
-    team_id: { type: 'string' },
     title: { type: 'string' },
+    team: { type: 'string' },
     desc: { type: 'string' },
     remark: { type: 'string' },
     tags: { type: 'array', items: {type: 'string'}},
-    priority: { type: 'integer', minimum: 1, maximum: 5 },
-    status: { type: 'integer', minimum: 1, maximum: 5 },
-    score: { type: 'integer', minimum: 1, maximum: 10 },
+    priority: { type: 'integer', minimum: 0, maximum: 5 },
+    status: { type: 'integer', minimum: 0, maximum: 5 },
+    score: { type: 'integer', minimum: 0, maximum: 10 },
     issuer: { type: 'array', items: {type: 'string'}},
     responser: { type: 'array', items: {type: 'string'}},
-    open_at: { type: 'string', format: 'date-time' },
-    close_at: { type: 'string', format: 'date-time' },
-    alpha_at: { type: 'string', format: 'date-time' },
-    beta_at: { type: 'string', format: 'date-time' },
-    relase_at: { type: 'string', format: 'date-time' },
+    open_at: { type: 'string', default: '' },
+    close_at: { type: 'string', fdefault: '' },
+    alpha_at: { type: 'string', default: '' },
+    beta_at: { type: 'string', default: '' },
+    relase_at: { type: 'string', default: '' },
     expandObj: { type: 'object' },
   }
 }
@@ -107,7 +125,7 @@ exports.taskApi = {
       type: 'object',
       additionalProperties: false,
       properties: {
-        team_id: { type: 'string' },
+        team: { type: 'string' },
         title: { type: 'string' },
         priority: { type: 'integer', minimum: 1, maximum: 5 },
         status: { type: 'integer', minimum: 1, maximum: 5 }
@@ -126,12 +144,17 @@ exports.taskApi = {
   },
   add: {
     ...generateBase('add',TAG_TASK),
-    body: BODY_TASK,
     querystring: {
       type: 'object',
       additionalProperties: false,
       properties: {
         parent: { type: 'string' }
+      }
+    },
+    body: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
       }
     }
   },
@@ -139,7 +162,21 @@ exports.taskApi = {
     ...generateBase('update',TAG_TASK),
     body: BODY_TASK
   },
-  list: generateBase('list',TAG_TASK),
+  list: {
+    ...generateBase('list',TAG_TASK),
+    // response: {
+    //   200: {
+    //     type: 'array',
+    //     items:{ 
+    //       type:'object',
+    //       properties: {
+    //         '_id': { type: 'string' },
+    //         'title': { type: 'string' }
+    //       }
+    //     }
+    //   }
+    // }
+  },
   item: generateBase('item',TAG_TASK),
   delete: generateBase('delete',TAG_TASK)
 }

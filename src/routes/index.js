@@ -6,27 +6,13 @@ const userController = require('../controllers/userCtrller')
 const teamController = require('../controllers/teamCtrller')
 const taskController = require('../controllers/taskCtrller')
 
-const routeCommon = [
-  {
-    method: 'POST',
-    url: '/api/token',
-    handler: commonController.getToken,
-    schema: apiSchema.commonApi.token
-  },
-  {
-    method: 'POST',
-    url: '/api/file',
-    handler: commonController.uploadFile,
-    schema: apiSchema.commonApi.file
-  },
-  {
-    method: 'GET',
-    url: '/api/public/:file',
-    handler: commonController.getFile,
-    schema: apiSchema.commonApi.public
-  },
-]
 const routeUser = [
+  {
+    method: 'POST',
+    url: '/api/login',
+    handler: userController.handleLogin,
+    schema: apiSchema.userApi.login
+  },
   {
     method: 'GET',
     url: '/api/user',
@@ -134,11 +120,25 @@ const routeTask = [
     schema: apiSchema.taskApi.delete
   }
 ]
+const routeCommon = [
+  {
+    method: 'POST',
+    url: '/api/file',
+    handler: commonController.uploadFile,
+    schema: apiSchema.commonApi.file
+  },
+  {
+    method: 'GET',
+    url: '/api/public/:file',
+    handler: commonController.getFile,
+    schema: apiSchema.commonApi.public
+  },
+]
 const routes = [
-  ...routeCommon,
   ...routeUser,
   ...routeTeam,
-  ...routeTask
+  ...routeTask,
+  ...routeCommon,
 ]
 
 module.exports = routes

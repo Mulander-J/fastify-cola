@@ -4,6 +4,42 @@ const boom = require('boom')
 // Get Data Models
 const User = require('../models/User')
 
+// Get token of session-key
+exports.handleLogin = async (req, reply) => {
+  try {
+    // const users = await User.find()
+    // grant_type 'authorization_code'
+
+  //   var opt = {
+  //     method: 'GET',
+  //     url: 'https://api.weixin.qq.com/sns/jscode2session',
+  //     params: {
+  //         appid: appid,
+  //         secret: appSecret,
+  //         js_code: code,
+  //         grant_type: 'authorization_code'
+  //     }
+  // };
+  // return http(opt).then(function (response) {
+  //     var data = response.data;
+  //     if (!data.openid || !data.session_key || data.errcode) {
+  //         return {
+  //             result: -2,
+  //             errmsg: data.errmsg || '返回数据字段不完整'
+  //         }
+  //     } else {
+  //         return data
+  //     }
+  // });
+
+    return {
+      token:'this is a token'
+    }
+  } catch (err) {
+    throw boom.boomify(err)
+  }
+}
+
 // Get all users
 exports.getUsers = async (req, reply) => {
   try {
@@ -40,8 +76,8 @@ exports.updateUser = async (req, reply) => {
   try {
     const id = req.params.id
     const user = req.body
-    const { ...updateData } = User
-    const update = await user.findByIdAndUpdate(id, updateData, { new: true })
+    const { ...updateData } = user
+    const update = await User.findByIdAndUpdate(id, updateData, { new: true })
     return update
   } catch (err) {
     throw boom.boomify(err)

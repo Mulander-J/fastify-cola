@@ -11,6 +11,8 @@ module.exports = {
                 APP_HOST: { type: 'string', default: 'localhost'},
                 APP_SWAGGER_URL: { type: 'string', default: 'localhost：3000'},
                 APP_MGDB: { type: 'string', default: 'mongodb://localhost/mytest'},
+                MINI_ID: { type: 'string', default: ''},
+                MINI_SECRET: { type: 'string', default: ''}
             }
         }
     },
@@ -66,8 +68,8 @@ module.exports = {
         exposeRoute: true,
         swagger: {
             info: {
-                title: 'Fastify API',
-                description: 'Building a blazing fast REST API with Node.js, MongoDB, Fastify and Swagger',
+                title: 'Fastify Cola',
+                description: 'Building a cool fast REST APIs with Node.js, MongoDB, Fastify and Swagger.',
                 version: '1.0.0'
             },
             externalDocs: {
