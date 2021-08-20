@@ -108,11 +108,11 @@ const BODY_TASK = {
     score: { type: 'integer', minimum: 0, maximum: 10 },
     issuer: { type: 'array', items: {type: 'string'}},
     responser: { type: 'array', items: {type: 'string'}},
-    open_at: { type: 'string', default: '' },
-    close_at: { type: 'string', fdefault: '' },
-    alpha_at: { type: 'string', default: '' },
-    beta_at: { type: 'string', default: '' },
-    relase_at: { type: 'string', default: '' },
+    open_at: { type: 'string' },
+    close_at: { type: 'string'},
+    alpha_at: { type: 'string'},
+    beta_at: { type: 'string'},
+    relase_at: { type: 'string'},
     expandObj: { type: 'object' },
   }
 }

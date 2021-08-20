@@ -9,6 +9,9 @@ const taskPopulate =[
   { path: 'issuer', select:'_id name avatar' },
   { path: 'responser', select:'_id name avatar' }
 ]
+const taskSort = { status: -1, priority: -1, updatedAt: -1 }
+const taskSortStr = '-status -priority -updatedAt'
+
 
 // Get all tasks By Tree
 exports.getTaskByTree = async (req, reply) => {
@@ -18,9 +21,17 @@ exports.getTaskByTree = async (req, reply) => {
     let tree = []
     if(parent){
       const pNode = await Task.findById(parent)
-      tree = await pNode.getChildrenTree({ populate: taskPopulate });
+      tree = await pNode.getChildrenTree({ 
+        populate: taskPopulate, 
+        options: {
+          sort: { status: -1, priority: -1 }
+        }
+      });
     }else{
-      tree = await Task.getChildrenTree({ populate: taskPopulate });
+      tree = await Task.getChildrenTree({
+        populate: taskPopulate, 
+        options: { sort: taskSort }
+      });
     }
     return tree
   } catch (err) {
@@ -40,6 +51,7 @@ exports.getTaskHeads = async (req, reply) => {
       minLevel: 1,
       maxLevel: 1,
       populate: taskPopulate,
+      options: { sort: taskSort },
       filters
     })
     return tasks
@@ -51,7 +63,7 @@ exports.getTaskHeads = async (req, reply) => {
 // Get all tasks
 exports.getTasks = async (req, reply) => {
   try {
-    const tasks = await Task.find().populate(taskPopulate)
+    const tasks = await Task.find().populate(taskPopulate).sort(taskSortStr)
     return tasks
   } catch (err) {
     throw boom.boomify(err)
