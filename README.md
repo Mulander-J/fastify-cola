@@ -32,6 +32,7 @@ npm start
 - "mongoose-mpath": "2.4.11" - treeData
 - "pino-pretty": "5.1.3" - logger-pritter
 - "under-pressure": "5.7.0" - pressure-control
+- "fastify-rate-limit": "5.6.0" - rate-limit-control
 - "boom": "^7.2.2" - Error Handler
 - "nodemon": "^1.18.7" - node-hotLoad
 
