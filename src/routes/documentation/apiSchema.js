@@ -77,7 +77,8 @@ const BODY_TEAM = {
     title: { type: 'string' },
     desc: { type: 'string' },
     avatar: { type: 'string' },
-    tags: { type: 'array', 'items': { 'type': 'string'}}
+    users: { type: 'array', items: {type: 'string'}},
+    tags: { type: 'array', items: { type: 'string'}}
   }
 }
 exports.teamApi = {
@@ -103,6 +104,7 @@ const BODY_TASK = {
     desc: { type: 'string' },
     remark: { type: 'string' },
     tags: { type: 'array', items: {type: 'string'}},
+    budget: { type: 'integer', minimum: 0, maximum: 24*7 },
     priority: { type: 'integer', minimum: 0, maximum: 5 },
     status: { type: 'integer', minimum: 0, maximum: 5 },
     score: { type: 'integer', minimum: 0, maximum: 10 },
@@ -164,18 +166,23 @@ exports.taskApi = {
   },
   list: {
     ...generateBase('list',TAG_TASK),
-    // response: {
-    //   200: {
-    //     type: 'array',
-    //     items:{ 
-    //       type:'object',
-    //       properties: {
-    //         '_id': { type: 'string' },
-    //         'title': { type: 'string' }
-    //       }
-    //     }
-    //   }
-    // }
+    response: {
+      200: {
+        type: 'array',
+        items:{ 
+          type:'object',
+          properties: {
+            '_id': { type: 'string' },
+            title: { type: 'string' },
+            budget: { type: 'integer'},
+            priority: { type: 'integer' },
+            status: { type: 'integer' },
+            score: { type: 'integer' },
+            updatedAt: {type: 'string' }
+          }
+        }
+      }
+    }
   },
   item: generateBase('item',TAG_TASK),
   delete: generateBase('delete',TAG_TASK)

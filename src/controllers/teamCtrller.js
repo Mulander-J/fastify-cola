@@ -18,7 +18,7 @@ exports.getTeams = async (req, reply) => {
 exports.getSingleTeam = async (req, reply) => {
   try {
     const id = req.params.id
-    const team = await Team.findById(id)
+    const team = await Team.findById(id).populate(  { path: 'users', select:'_id name avatar' })
     return team
   } catch (err) {
     throw boom.boomify(err)

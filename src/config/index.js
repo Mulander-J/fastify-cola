@@ -46,7 +46,7 @@ module.exports = {
         retryAfter: 50
     },
     rateLimit: {
-        max: 100,
+        max: 600,
         timeWindow: 1000 * 60
     },
     file: {

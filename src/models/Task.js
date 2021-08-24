@@ -13,14 +13,15 @@ const taskSchema = new mongoose.Schema({
         // required: true
     },
     title: { type: String, required: true },  //  任务标题
-    desc: String,   //  任务描述
-    remark: String, //  任务备注
+    desc: { type: String, default: '' },   //  任务描述
+    remark: { type: String, default: '' }, //  任务备注
     tags: { type: Array, of: String },  //  标签列表
 
     priority: { type: Number, default: 0, min:0, max: 5 }, //  优先级0-5
     status: { type: Number, default: 0, min:0, max: 5 },   //  执行状态0-5
     score: { type: Number, default: 0, min:0, max: 10 },   //  复盘打分0-10
 
+    budget: { type: Number, default: 0, min:0, max: 24 * 7 }, //  预估工时 单位h
     issuer: { 
       type: Array, 
       of: {
