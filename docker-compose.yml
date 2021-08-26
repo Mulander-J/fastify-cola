@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo
+    container_name: colaMongo
+    restart: always
+    ports:
+      - 27018:27017
+    # volumes:
+    #   - ~/mongoData/db:/data/db
+    networks:
+      colaNet:
+        aliases:
+          - mongo.cola.ai      
+  nodeApi:
+    image: fastify_cola
+    container_name: cola.v1
+    restart: always
+    build: .
+    command: "npm start"
+    volumes:
+      - .env:/usr/src/app/.env
+    depends_on:
+      - mongodb
+    ports:
+      - 3699:3000
+    networks:
+      colaNet:
+        aliases:
+          - api.cola.ai
+networks:
+  colaNet:
+    external:
+      name: cola.ai

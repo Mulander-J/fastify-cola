@@ -8,7 +8,8 @@
   "scripts": {
     "bootstrap": "npm install",
     "clean": "rimraf node_modules & rm -r package-lock.json & npm cache clean --force",
-    "start": "./node_modules/nodemon/bin/nodemon.js ./src/index.js",
+    "dev": "./node_modules/nodemon/bin/nodemon.js ./src/index.js",
+    "start": "node ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

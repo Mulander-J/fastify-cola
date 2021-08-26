@@ -8,7 +8,7 @@ module.exports = {
             required: [ 'APP_PORT' ],
             properties: {
                 APP_PORT: { type: 'string', default: 3000},
-                APP_HOST: { type: 'string', default: 'localhost'},
+                APP_HOST: { type: 'string', default: '0.0.0.0'},
                 APP_SWAGGER_URL: { type: 'string', default: 'localhost：3000'},
                 APP_MGDB: { type: 'string', default: 'mongodb://localhost/mytest'},
                 MINI_ID: { type: 'string', default: ''},
@@ -46,7 +46,7 @@ module.exports = {
         retryAfter: 50
     },
     rateLimit: {
-        max: 600,
+        max: 1000,
         timeWindow: 1000 * 60
     },
     file: {
