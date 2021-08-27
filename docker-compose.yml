@@ -20,6 +20,7 @@ services:
     command: "npm start"
     volumes:
       - .env:/usr/src/app/.env
+      - ./logs:/usr/src/app/logs
     depends_on:
       - mongodb
     ports:

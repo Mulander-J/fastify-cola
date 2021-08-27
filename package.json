@@ -1,7 +1,7 @@
 {
-  "name": "fastify-api",
+  "name": "fastify-cola",
   "version": "1.0.0",
-  "description": "A blazing fast REST APIs with Node.js, MongoDB, Fastify and Swagger.",
+  "description": "A cool fast REST APIs with Node.js, MongoDB, Fastify and Swagger.",
   "author": "Mulander-J <mulander_j@outlook.com>",
   "license": "MIT",
   "main": "index.js",
@@ -21,6 +21,7 @@
     "fastify-mongodb": "^0.9.1",
     "fastify-swagger": "^0.15.3",
     "fastify-plugin": "3.0.0",
+    "fastify-logger": "1.0.1",
     "fastify-cors": "6.0.2",
     "fastify-rate-limit": "5.6.0",
     "fastify-multipart": "4.0.7",
@@ -29,7 +30,8 @@
     "mongoose-mpath": "2.4.11",
     "pino-pretty": "5.1.3",
     "under-pressure": "5.7.0",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "js-jieba": "1.0.4"
   },
   "devDependencies": {
     "nodemon": "^1.18.7"

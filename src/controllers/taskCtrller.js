@@ -98,7 +98,7 @@ exports.addTask = async (req, reply) => {
       let res = await task.save()
       //  initial bumch of nodes
       const _teamId = req.body?.team || null
-      const initialNodes = ['启动','提测','完成']
+      const initialNodes = require('../config/task.base').initialNodes
       for (let title of initialNodes){
         let temp = new Task({
           title,

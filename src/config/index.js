@@ -23,31 +23,35 @@ module.exports = {
             timestampKey: 'time',
             translateTime : 'yyyy-mm-dd HH:MM:ss.l',
             messageFormat: '{msg}',
-            // file : 'D://Test//test.log', //此处设置log文件输出路径
-            // logrotator : {  // 设置按什么归档日志
-            //   byDay: true,
-            //   dayDelimiter: '_'
-            // },
-            // maxBufferLength: 4096,
-            // flushInterval: 1000,
+            file : path.join(__dirname, '../../logs'), //此处设置log文件输出路径
+            logrotator : {  // 设置按什么归档日志
+              byDay: true,
+              dayDelimiter: '_'
+            },
+	        customLevels: 'all',    //自定义level设置输出所有级别日志
+            maxBufferLength: 4096,
+            flushInterval: 1000      
         }
     },
     cors: {},
-    helmet: {
-        contentSecurityPolicy: false
-    },
+    helmet: { contentSecurityPolicy: false },
     compress: { global: true },
     pressure: {
-        maxEventLoopDelay: 1000,
-        maxHeapUsedBytes: 100000000,
-        maxRssBytes: 100000000,
+        maxEventLoopDelay: 10_000,
+        maxHeapUsedBytes: 300_000_000,
+        maxRssBytes: 50_000_0000,
         maxEventLoopUtilization: 0.98,
         message: 'Under pressure!',
-        retryAfter: 50
+        retryAfter: 50,
+        healthCheckInterval: 1_000 * 60 * 30,
+        healthCheck: async function (fastifyInstance) {
+            fastifyInstance.log.info(`======> ❤️ Health-Jump ❤️ <======`)
+            return true
+        }
     },
     rateLimit: {
-        max: 1000,
-        timeWindow: 1000 * 60
+        max: 1_000,
+        timeWindow: 1_000 * 60
     },
     file: {
         // limits: {
@@ -64,7 +68,7 @@ module.exports = {
         prefix: '/', // optional: default '/'
       },
     swaggerDoc:{
-        routePrefix: '/documentation',
+        routePrefix: '/doc',
         exposeRoute: true,
         swagger: {
             info: {

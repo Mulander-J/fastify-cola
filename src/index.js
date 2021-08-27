@@ -1,17 +1,27 @@
 // Require the config of fastify-plugin-options
-const fp = require('fastify-plugin')
 const conf = require('./config')
+const fp = require('fastify-plugin')
 // Import Routes
 const routes = require('./routes')
+//  Setup logger
+const {opt} = require('fastify-logger')(conf.logger);
+opt.stream = null;
 // Require the fastify framework and instantiate it
-const fastify = require('fastify')({
-  logger: conf.logger //  setup logger
-})
+const fastify = require('fastify')({ logger: opt })
+/**
+ * @description Inject Swagger with env-conf
+ * @param {*} fastify 
+ */
 async function injectSwagger (fastify) {
-  let { swaggerDoc } = conf
+  let { swaggerDoc } = conf  
   swaggerDoc.swagger.host = fastify.config.APP_SWAGGER_URL
+  // Register Swagger (https://github.com/fastify/fastify-swagger)
   fastify.register(require('fastify-swagger'), swaggerDoc)
 }
+/**
+ * @description connect mongoDB with env-conf
+ * @param {*} fastify 
+ */
 async function connectDB (fastify) {
   // Require external modules
   const mongoose = require('mongoose')
@@ -24,10 +34,12 @@ async function connectDB (fastify) {
     /*DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.*/
     useUnifiedTopology: true
   })
-    .then(() => console.info('==============>MongoDB connected success'))
-    .catch(err => console.log(err))
+    .then(() => fastify.log.info('==============>MongoDB connected success<=============='))
+    .catch(err => fastify.log.error(err))
 }
-
+/**
+ * @description Start the service
+ */
 async function start () {
   // Reigseter Plugins
   await fastify
@@ -47,7 +59,6 @@ async function start () {
     .register(require('under-pressure'), conf.pressure)
     // Register Rate-limit (https://github.com/fastify/fastify-rate-limit)
     .register(require('fastify-rate-limit'), conf.rateLimit)
-    // Register Swagger (https://github.com/fastify/fastify-swagger)
     .register(fp(injectSwagger))
     .register(fp(connectDB))
 
@@ -68,7 +79,7 @@ async function start () {
   try {
     await fastify.listen(fastify.config.APP_PORT, fastify.config.APP_HOST)
     fastify.swagger()
-    console.info(`==============>Swagger-Url | http://${fastify.config.APP_SWAGGER_URL}${conf.swaggerDoc.routePrefix}`)
+    console.info(`==============>Swagger-Url | http://${fastify.config.APP_SWAGGER_URL}${conf.swaggerDoc.routePrefix}/index.html#/`)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)

@@ -133,6 +133,12 @@ const routeCommon = [
     handler: commonController.getFile,
     schema: apiSchema.commonApi.public
   },
+  {
+    method: 'GET',
+    url: '/api/jieba',
+    handler: commonController.getJieba,
+    schema: apiSchema.commonApi.jieba
+  }
 ]
 const routes = [
   ...routeUser,

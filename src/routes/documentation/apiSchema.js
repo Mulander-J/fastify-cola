@@ -11,6 +11,19 @@ exports.commonApi = {
     description: `Get file`,
     tags: [TAG_COMMON],
     summary: `Get your file with the filename`
+  },
+  jieba: {
+    description: `Get jieba`,
+    tags: [TAG_COMMON],
+    summary: `Get your words with the jieba`,
+    querystring: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        mode: { type: 'string' },
+        topk: { type: 'integer', minimum: 1, maximum: 200 }
+      }
+    }
   }
 }
 
