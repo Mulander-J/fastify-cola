@@ -74,3 +74,14 @@ exports.getJieba = async (req, reply) => {
     throw boom.boomify(err)
   }
 }
+
+// get file
+exports.myEncode = async (req, reply) => {
+  const fileName = req.params.file
+  return reply.sendFile(fileName) 
+}
+// get file
+exports.myDecode = async (req, reply) => {
+  const fileName = req.params.file
+  return reply.sendFile(fileName) 
+}

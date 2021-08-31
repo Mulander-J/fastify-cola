@@ -7,12 +7,12 @@ const teamController = require('../controllers/teamCtrller')
 const taskController = require('../controllers/taskCtrller')
 
 const routeUser = [
-  {
-    method: 'POST',
-    url: '/api/login',
-    handler: userController.handleLogin,
-    schema: apiSchema.userApi.login
-  },
+  // {
+  //   method: 'POST',
+  //   url: '/api/login',
+  //   handler: userController.handleLogin,
+  //   schema: apiSchema.userApi.login
+  // },
   {
     method: 'GET',
     url: '/api/user',
@@ -138,6 +138,18 @@ const routeCommon = [
     url: '/api/jieba',
     handler: commonController.getJieba,
     schema: apiSchema.commonApi.jieba
+  },
+  {
+    method: 'GET',
+    url: '/api/encode/:target',
+    handler: commonController.myEncode,
+    schema: apiSchema.commonApi.encode
+  },
+  {
+    method: 'GET',
+    url: '/api/decode/:code',
+    handler: commonController.myDecode,
+    schema: apiSchema.commonApi.decode
   }
 ]
 const routes = [

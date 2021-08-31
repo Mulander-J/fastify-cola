@@ -43,7 +43,13 @@ exports.handleLogin = async (req, reply) => {
 // Get all users
 exports.getUsers = async (req, reply) => {
   try {
-    const users = await User.find()
+    const filterKeys = ["isActive","openId"]
+    let filters = {}
+    filterKeys.forEach(k=>{
+      req.query[k] && (filters[k] = req.query[k])
+    })
+    console.log('[ filters ] >', filters)
+    const users = await User.find(filters)
     return users
   } catch (err) {
     throw boom.boomify(err)

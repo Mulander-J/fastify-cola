@@ -7,7 +7,10 @@ const Team = require('../models/Team')
 // Get all teams
 exports.getTeams = async (req, reply) => {
   try {
-    const teams = await Team.find()
+    const { userId } = req.query
+    let params = {}
+    userId && (params = { users: { $elemMatch: { $eq: userId } } })
+    const teams = await Team.find(params)
     return teams
   } catch (err) {
     throw boom.boomify(err)

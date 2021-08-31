@@ -24,6 +24,30 @@ exports.commonApi = {
         topk: { type: 'integer', minimum: 1, maximum: 200 }
       }
     }
+  },
+  encode: {
+    description: `Encode anything`,
+    tags: [TAG_COMMON],
+    summary: `Encode anything with input`,
+    querystring: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        target: { type: 'string' }
+      }
+    }
+  },
+  decode: {
+    description: `Decode something`,
+    tags: [TAG_COMMON],
+    summary: `Decode your message`,
+    querystring: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        code: { type: 'string' }
+      }
+    }
   }
 }
 
@@ -31,11 +55,17 @@ const TAG_USER = 'user'
 const BODY_USER = {
   type: 'object',
   properties: {
-    name: { type: 'string' },
-    pwd: { type: 'string' },
-    email: { type: 'string' },
-    avatar: { type: 'string' },
-    options: { type: 'object' }
+    'openId': { type: 'string' },
+    'userInfo': { 
+      type: 'object',
+      properties: {
+        'nickName': { type: 'string' },
+        'avatarUrl': { type: 'string' },
+        'city': { type: 'string' },
+        'province': { type: 'string' },
+        'language': { type: 'string' }
+      }
+    }
   }
 }
 exports.userApi = {
@@ -55,21 +85,37 @@ exports.userApi = {
   },
   list: {
     ...generateBase('list',TAG_USER),
-    response: {
-      200: {
-        type: 'array',
-        items:{ 
-          type:'object',
-          properties: {
-            '_id': { type: 'string' },
-            'name': { type: 'string' },
-            'email': { type: 'string' },
-            'avatar': { type: 'string' },
-            'isActive': { type: 'boolean' }
-          }
-        }
+    querystring: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        openId: { type: 'string' },
+        isActive: { type: 'boolean'}
       }
     }
+    // response: {
+    //   200: {
+    //     type: 'array',
+    //     items:{ 
+    //       type:'object',
+    //       properties: {
+    //         '_id': { type: 'string' },
+    //         openId: { type: 'string' },
+    //         isActive: { type: 'boolean' },
+    //         userInfo: { 
+    //           type: 'object',
+    //           properties: {
+    //             'nickName': { type: 'string' },
+    //             'avatarUrl': { type: 'string' },
+    //             'city': { type: 'string' },
+    //             'province': { type: 'string' },
+    //             'language': { type: 'string' }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   },
   item: generateBase('item',TAG_USER),
   delete: generateBase('delete',TAG_USER),
@@ -95,7 +141,16 @@ const BODY_TEAM = {
   }
 }
 exports.teamApi = {
-  list: generateBase('list',TAG_TEAM),
+  list: {
+    ...generateBase('list',TAG_TEAM),
+    querystring: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        userId: { type: 'string' }
+      }
+    }
+  },
   item: generateBase('item',TAG_TEAM),
   delete: generateBase('delete',TAG_TEAM),
   add: {
