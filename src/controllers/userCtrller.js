@@ -48,7 +48,7 @@ exports.getUsers = async (req, reply) => {
     filterKeys.forEach(k=>{
       req.query[k] && (filters[k] = req.query[k])
     })
-    console.log('[ filters ] >', filters)
+    // console.log('[ filters ] >', filters)
     const users = await User.find(filters)
     return users
   } catch (err) {

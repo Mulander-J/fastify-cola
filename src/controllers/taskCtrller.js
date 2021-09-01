@@ -6,8 +6,8 @@ const Task = require('../models/Task')
 
 const taskPopulate =[
   { path: 'team', select:'_id title avatar' },
-  { path: 'issuer', select:'_id name avatar' },
-  { path: 'responser', select:'_id name avatar' }
+  { path: 'issuer', select:'_id userInfo' },
+  { path: 'responser', select:'_id userInfo' }
 ]
 const taskSort = { status: -1, priority: -1, updatedAt: -1 }
 const taskSortStr = '-status -priority -updatedAt'
