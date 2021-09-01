@@ -17,7 +17,11 @@ const taskSortStr = '-status -priority -updatedAt'
 exports.getTaskByTree = async (req, reply) => {
   try {
     const {parent} = req.query
-    // console.log('parent======>', parent)  //611a37c271c8309d6b85dacf
+    const filterKeys = ["team", "priority", "status"]
+    let filters = {}
+    filterKeys.forEach(k=>{
+      req.query[k] && (filters[k] = req.query[k])
+    })
     let tree = []
     if(parent){
       const pNode = await Task.findById(parent)
@@ -25,12 +29,14 @@ exports.getTaskByTree = async (req, reply) => {
         populate: taskPopulate, 
         options: {
           sort: { status: -1, priority: -1 }
-        }
+        },
+        filters
       });
     }else{
       tree = await Task.getChildrenTree({
         populate: taskPopulate, 
-        options: { sort: taskSort }
+        options: { sort: taskSort },
+        filters
       });
     }
     return tree

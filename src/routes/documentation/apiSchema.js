@@ -217,8 +217,12 @@ exports.taskApi = {
     querystring: {
       type: 'object',
       additionalProperties: false,
+      required: ['team'],
       properties: {
-        parent: { type: 'string' }
+        team: { type: 'string' },
+        parent: { type: 'string' },
+        priority: { type: 'integer', minimum: 1, maximum: 5 },
+        status: { type: 'integer', minimum: 1, maximum: 5 }
       }
     }
   },
@@ -244,23 +248,23 @@ exports.taskApi = {
   },
   list: {
     ...generateBase('list',TAG_TASK),
-    response: {
-      200: {
-        type: 'array',
-        items:{ 
-          type:'object',
-          properties: {
-            '_id': { type: 'string' },
-            title: { type: 'string' },
-            budget: { type: 'integer'},
-            priority: { type: 'integer' },
-            status: { type: 'integer' },
-            score: { type: 'integer' },
-            updatedAt: {type: 'string' }
-          }
-        }
-      }
-    }
+    // response: {
+    //   200: {
+    //     type: 'array',
+    //     items:{ 
+    //       type:'object',
+    //       properties: {
+    //         '_id': { type: 'string' },
+    //         title: { type: 'string' },
+    //         budget: { type: 'integer'},
+    //         priority: { type: 'integer' },
+    //         status: { type: 'integer' },
+    //         score: { type: 'integer' },
+    //         updatedAt: {type: 'string' }
+    //       }
+    //     }
+    //   }
+    // }
   },
   item: generateBase('item',TAG_TASK),
   delete: generateBase('delete',TAG_TASK)
