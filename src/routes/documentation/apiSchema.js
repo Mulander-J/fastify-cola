@@ -2,6 +2,11 @@ const {generateBase} = require('./descHelper')
 
 const TAG_COMMON = 'common'
 exports.commonApi = {
+  hello: {
+    description: `Hello world`,
+    tags: [TAG_COMMON],
+    summary: `Say hello`
+  },
   file: {
     description: `Upload file`,
     tags: [TAG_COMMON],
@@ -32,8 +37,10 @@ exports.commonApi = {
     querystring: {
       type: 'object',
       additionalProperties: false,
+      required: ['target'],
       properties: {
-        target: { type: 'string' }
+        target: { type: 'string' },
+        namespace: { type: 'string' }
       }
     }
   },
@@ -41,12 +48,15 @@ exports.commonApi = {
     description: `Decode something`,
     tags: [TAG_COMMON],
     summary: `Decode your message`,
-    querystring: {
+    params: {
       type: 'object',
-      additionalProperties: false,
       properties: {
-        code: { type: 'string' }
-      }
+          code: {
+              type: 'string',
+              description: `the code`
+          }
+      },
+      required: ['code']
     }
   }
 }

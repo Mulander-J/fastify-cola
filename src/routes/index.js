@@ -122,6 +122,12 @@ const routeTask = [
 ]
 const routeCommon = [
   {
+    method: 'GET',
+    url: '/api/hello',
+    handler: ()=>('Hello Cola'),
+    schema: apiSchema.commonApi.hello
+  },
+  {
     method: 'POST',
     url: '/api/file',
     handler: commonController.uploadFile,
@@ -141,7 +147,7 @@ const routeCommon = [
   },
   {
     method: 'GET',
-    url: '/api/encode/:target',
+    url: '/api/encode',
     handler: commonController.myEncode,
     schema: apiSchema.commonApi.encode
   },

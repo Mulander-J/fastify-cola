@@ -17,9 +17,11 @@ const jieba = Jieba(
   Buffer.from(IDF),
   Buffer.from(StopWords)
 )
+const {getCode}  = require('../utils/index.js')
 
 const nodes = require('../config/task.base')
 const Task = require('../models/Task')
+const Fredis = require('../models/Fredis')
 
 // upload file
 exports.uploadFile = async (req, reply) => {
@@ -75,13 +77,43 @@ exports.getJieba = async (req, reply) => {
   }
 }
 
-// get file
+// get encode
 exports.myEncode = async (req, reply) => {
-  const fileName = req.params.file
-  return reply.sendFile(fileName) 
+  const { target, namespace="default" } = req.query
+  try {
+    let code = ''
+    let existed = true
+    let safeCount = 5
+
+    do {
+      code = getCode()
+      existed = await Fredis.findOne({code})
+      safeCount--
+      // console.log('[ safeCount ] >', safeCount, existed)
+    } while(existed && safeCount >0)
+    if(existed){
+      throw Error('请稍后再试')
+    }else{
+      const expire_at  = new Date().getTime() + 1000 * 3600 * 24
+      const fredis = new Fredis({ target, namespace, code, expire_at })
+      return fredis.save()
+    }
+  } catch (err) {
+    throw boom.boomify(err)
+  }
 }
-// get file
+// get decode
 exports.myDecode = async (req, reply) => {
-  const fileName = req.params.file
+  const code = req.params.code
+  const fredis = await Fredis.findOne({code})
+  if(fredis){
+    if(fredis.expire_at < Date.now()){
+      throw Error('Code Is Expired!')
+    }else{
+      return fredis
+    }
+  }else{
+    throw Error('Code Is Not Find!')
+  }
   return reply.sendFile(fileName) 
 }
