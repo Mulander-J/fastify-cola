@@ -96,7 +96,8 @@ exports.addTask = async (req, reply) => {
       pNode = await Task.findById(parentId) || null
       task = new Task({
         ...req.body,
-        parent: pNode
+        parent: pNode,
+        team: pNode.team || null
       })
       return task.save()
     }else{
