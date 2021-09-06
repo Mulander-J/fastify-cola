@@ -25,6 +25,8 @@ services:
       - mongodb
     ports:
       - 3699:3000
+    environment:
+      - TZ=Asia/Shanghai      
     networks:
       colaNet:
         aliases:
