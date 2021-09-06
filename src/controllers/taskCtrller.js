@@ -97,7 +97,7 @@ exports.addTask = async (req, reply) => {
       task = new Task({
         ...req.body,
         parent: pNode,
-        team: pNode.team || null
+        team: req.body.team || pNode.team || null
       })
       return task.save()
     }else{
