@@ -17,20 +17,21 @@ module.exports = {
         }
     },
     logger: {
+        // console: true,
+        file : path.join(__dirname, '../../logs/fastify.log'), //此处设置log文件输出路径
+        logrotator : {  // 设置按什么归档日志
+          byDay: true,
+          dayDelimiter: '_'
+        },
+        customLevels: 'all',    //自定义level设置输出所有级别日志
+        maxBufferLength: 4096,
+        flushInterval: 1000,
         //  setup pino-pretty
         prettyPrint: {
-            colorize: true,
+            colorize: false,
             timestampKey: 'time',
-            translateTime : 'yyyy-mm-dd HH:MM:ss.l',
+            translateTime : 'SYS:yyyy-mm-dd HH:MM:ss Z',
             messageFormat: '{msg}',
-            file : path.join(__dirname, '../../logs'), //此处设置log文件输出路径
-            logrotator : {  // 设置按什么归档日志
-              byDay: true,
-              dayDelimiter: '_'
-            },
-	        customLevels: 'all',    //自定义level设置输出所有级别日志
-            maxBufferLength: 4096,
-            flushInterval: 1000      
         }
     },
     cors: {},
