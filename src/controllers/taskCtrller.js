@@ -138,8 +138,9 @@ exports.updateTask = async (req, reply) => {
 exports.deleteTask = async (req, reply) => {
   try {
     const id = req.params.id
-    const task = await Task.findByIdAndRemove(id)
-    return task
+    const tasks = await Task.find({path:{$regex:id}})
+    const delta = await Task.deleteMany({_id: {$in: tasks}})
+    return delta
   } catch (err) {
     throw boom.boomify(err)
   }
