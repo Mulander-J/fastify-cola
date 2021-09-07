@@ -1,4 +1,4 @@
 module.exports = {
-    initialNodes: ['启动','提测','完成'],
-    processNodes: ['关闭','测试'],
+    initialNodes: ['启动','提测','完成','关闭'],
+    processNodes: ['测试'],
 }
