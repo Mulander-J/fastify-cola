@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo
+    container_name: colaMongo
+    restart: always
+    ports:
+      - 27018:27017
+    volumes:
+      - .opt/mongo/db:/data/db

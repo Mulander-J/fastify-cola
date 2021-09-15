@@ -1,0 +1,39 @@
+version: '3'
+services:
+  esSingle:
+    image: elasticsearch:7.6.1
+    container_name: es_single
+    # restart: always
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #set jvm ram usage
+      - "discovery.type=single-node" #start as single node    
+    volumes:
+      - ./opt/es/config/es-single.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./opt/es/logs:/usr/share/elasticsearch/logs
+      - ./opt/es/data:/usr/share/elasticsearch/data
+      # - /opt/es/plugins:/usr/share/elasticsearch/plugins   
+    ports:
+      - 9201:9200
+      - 9301:9300
+    networks:
+      colaNet:
+        aliases:
+          - es.cola.ai      
+  esHead:
+    image: mobz/elasticsearch-head:5
+    container_name: es_head
+    # restart: always
+    depends_on:
+      - esSingle
+    ports: 
+      - 9101:9100
+    networks:
+      colaNet:
+        aliases:
+          - esHead.cola.ai         
+
+
+networks:
+  colaNet:
+    external:
+      name: cola.ai      
