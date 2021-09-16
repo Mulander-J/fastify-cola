@@ -15,7 +15,7 @@ const esDocCtrller = require('../controllers/esDocCtrller')
 module.exports = function (fastify, opts, done) {
 
     /*Test API*/ 
-    fastify.get('/hello', { schema: schemaCommon.hello }, ()=>('Hello Cola'))
+    fastify.get('/hello', { schema: schemaCommon.hello}, ()=>('Hello Cola'))
     /*Common API*/
     fastify.get('/file', { schema: schemaCommon.file }, commonController.uploadFile)
     fastify.get('/public/:file', { schema: schemaCommon.public }, commonController.getFile)
@@ -39,8 +39,16 @@ module.exports = function (fastify, opts, done) {
     fastify.get('/taskTree', { schema: schemaTask.tree }, taskController.getTaskByTree)
     fastify.get('/taskHeads', { schema: schemaTask.heads }, taskController.getTaskHeads)
     fastify.get('/task', { schema: schemaTask.list }, taskController.getTasks)
-    fastify.post('/task', { schema: schemaTask.add }, taskController.addTask)
     fastify.get('/task/:id', { schema: schemaTask.item }, taskController.getSingleTask)
+    
+    fastify.post('/task', { 
+      schema: schemaTask.add, 
+      onResponse: (request, reply, reqDone)=>{
+        esDocCtrller.esWrite(fastify,request)
+        reqDone()
+      }
+    }, taskController.addTask)
+
     fastify.put('/task/:id', { schema: schemaTask.update }, taskController.updateTask)
     fastify.delete('/task/:id', { schema: schemaTask.delete }, taskController.deleteTask)
   

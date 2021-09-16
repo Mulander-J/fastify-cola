@@ -33,8 +33,9 @@ exports.esQuery = async (fastify,req, reply) => {
     }
 }
 
-exports.esWrite = async (fastify) => {
+exports.esWrite = async (fastify, req) => {
     try {
+        // console.log(req)
         return fastify.elastic.index({
             index: indexName,
             type: typeName,
