@@ -9,10 +9,9 @@ module.exports = {
             properties: {
                 APP_PORT: { type: 'string', default: 3000},
                 APP_HOST: { type: 'string', default: '0.0.0.0'},
-                APP_SWAGGER_URL: { type: 'string', default: 'localhost：3000'},
+                APP_SWAGGER_URL: { type: 'string', default: 'localhost:3000'},
                 APP_MGDB: { type: 'string', default: 'mongodb://localhost/mytest'},
-                MINI_ID: { type: 'string', default: ''},
-                MINI_SECRET: { type: 'string', default: ''}
+                APP_ES: { type: 'string', default: 'http://localhost:9200'}
             }
         }
     },
@@ -67,7 +66,12 @@ module.exports = {
     staticFile: {
         root: path.join(__dirname, '../../public'),
         prefix: '/', // optional: default '/'
-      },
+    },
+    elasticsearch: {
+        healthcheck: false,
+        node: 'http://localhost:9200',
+        // namespace: 'cluster1'
+    },
     swaggerDoc:{
         routePrefix: '/doc',
         exposeRoute: true,

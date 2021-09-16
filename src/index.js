@@ -1,15 +1,13 @@
 // Require the config of fastify-plugin-options
 const conf = require('./config')
 const fp = require('fastify-plugin')
-// Import Routes
-const routes = require('./routes')
 //  Setup logger
 const {opt} = require('fastify-logger')(conf.logger);
 opt.stream = null;
 // Require the fastify framework and instantiate it
 const fastify = require('fastify')({ logger: opt })
 /**
- * @description Inject Swagger with env-conf
+ * @description Inject Swagger with env&conf
  * @param {*} fastify 
  */
 async function injectSwagger (fastify) {
@@ -19,7 +17,18 @@ async function injectSwagger (fastify) {
   fastify.register(require('fastify-swagger'), swaggerDoc)
 }
 /**
- * @description connect mongoDB with env-conf
+ * @description bind es with env&conf
+ * @param {*} fastify 
+ */
+ async function bindES (fastify) {
+  // Register ES [elasticsearch](https://github.com/fastify/fastify-elasticsearch)
+  fastify.register(require('fastify-elasticsearch'), { 
+    ...conf.elasticsearch,
+    node: fastify.config.APP_ES
+  })  
+}
+/**
+ * @description connect mongoDB with env&conf
  * @param {*} fastify 
  */
 async function connectDB (fastify) {
@@ -61,8 +70,11 @@ async function start () {
     .register(require('fastify-rate-limit'), conf.rateLimit)
     .register(fp(injectSwagger))
     .register(fp(connectDB))
-
-  console.info("==============>fastify.config",fastify.config)
+    .register(fp(bindES))
+  
+  
+  /*log the config via .env*/
+  console.info("==============>fastify.config",fastify.config)  
 
   fastify.setErrorHandler(function (error, request, reply) {
     if (reply.statusCode === 429) {
@@ -72,9 +84,8 @@ async function start () {
   })
 
   // Loop over each route
-  routes.forEach(route => {
-    fastify.route(route)
-  })
+  // routes.forEach(route => {fastify.route(route)})
+  fastify.register(require('./routes/index'), { prefix: '/api' })
 
   try {
     await fastify.listen(fastify.config.APP_PORT, fastify.config.APP_HOST)
