@@ -1,10 +1,12 @@
-# A cool fast REST APIs with Node.js, MongoDB, Fastify and Swagger.
+# A cool fast REST APIs with Node.js, Fastify, MongoDB, Elasticsearch and Swagger.
 
 > FastifyCola . A Node.js backend project
 
 ## Prerequisites
 - Nodejs
 - MongoDB
+- Elasticsearch
+- Docker
 
 ## Build Setup
 
@@ -35,6 +37,7 @@ docker-compose up -d
 - ["fastify-env"](https://github.com/fastify/fastify-env): "2.1.1" - dotEnv
 - ["fastify-helmet"](https://github.com/fastify/fastify-helmet): "5.3.2" - helmet
 - "fastify-mongodb": "^0.9.1" - mongodb
+- ["fastify-elasticsearch"](https://github.com/fastify/fastify-elasticsearch): "2.0.0" - elasticsearch
 - ["fastify-swagger"](https://github.com/fastify/fastify-swagger): "^0.15.3" - swagger
 - "fastify-plugin": "3.0.0" - custom Plugin
 - ["fastify-cors"](https://github.com/fastify/fastify-cors): "6.0.2" - cors

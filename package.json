@@ -1,7 +1,7 @@
 {
   "name": "fastify-cola",
-  "version": "1.0.0",
-  "description": "A cool fast REST APIs with Node.js, MongoDB, Fastify and Swagger.",
+  "version": "1.0.1",
+  "description": "A cool fast REST APIs with Node.js, Fastify, MongoDB, Elasticsearch and Swagger.",
   "author": "Mulander-J <mulander_j@outlook.com>",
   "license": "MIT",
   "main": "index.js",
