@@ -91,6 +91,16 @@ async function start () {
     await fastify.listen(fastify.config.APP_PORT, fastify.config.APP_HOST)
     fastify.swagger()
     console.info(`==============>Swagger-Url | http://${fastify.config.APP_SWAGGER_URL}${conf.swaggerDoc.routePrefix}/index.html#/`)
+
+    const figlet = require('figlet');
+    figlet('FASTIFY . C O L A', function(err, data) {
+      if (err) {
+          console.log('[figlet]Something went wrong...');
+          console.dir(err);
+          return;
+      }
+      console.log(data)
+  }); 
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
