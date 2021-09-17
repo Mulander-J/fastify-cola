@@ -26,7 +26,7 @@ A cool fast REST APIs with Node.js, Fastify, MongoDB, Elasticsearch and Swagger
 
 [![mongoDB](https://img.shields.io/badge/mongoDB-moogose-orange.svg?)](https://www.mongodb.com/) 
 
-[![elastic](https://img.shields.io/badge/elastic-Elasticsearch-blue.svg?)](https://www.elastic.co/cn/elasticsearch/)
+[![elastic](https://img.shields.io/badge/elastic-v7.6.1-blue.svg?)](https://www.elastic.co/cn/elasticsearch/)
 
 
 
