@@ -44,13 +44,28 @@ module.exports = function (fastify, opts, done) {
     fastify.post('/task', { 
       schema: schemaTask.add, 
       onResponse: (request, reply, reqDone)=>{
-        esDocCtrller.esWrite(fastify,request)
+        esDocCtrller.esWrCaller(fastify,request,reply)
         reqDone()
       }
     }, taskController.addTask)
 
-    fastify.put('/task/:id', { schema: schemaTask.update }, taskController.updateTask)
-    fastify.delete('/task/:id', { schema: schemaTask.delete }, taskController.deleteTask)
+    fastify.put('/task/:id', { 
+      schema: schemaTask.update,
+      onResponse: (request, reply, reqDone)=>{
+        esDocCtrller.esWrCaller(fastify,request,reply)
+        reqDone()
+      }
+    }, taskController.updateTask)
+
+    fastify.delete('/task/:id', { 
+      schema: schemaTask.delete ,
+      onResponse: (request, reply, reqDone)=>{
+        esDocCtrller.esWrCaller(fastify,request,reply)
+        reqDone()
+      }
+    }, taskController.deleteTask)
   
+
+    
     done()
   }
