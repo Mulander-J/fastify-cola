@@ -61,6 +61,31 @@ module.exports = {
   esQuery: {
     description: `Read data From ES`,
     tags: [TAG_NAME],
-    summary: `Query with your payloads`
+    summary: `Query with your payloads`,
+    body: {
+      type: 'object',
+      properties: {
+        time_fr: {
+            type: 'string',
+            description: `Start at`
+        },
+        time_to: {
+            type: 'string',
+            description: `End at`
+        },
+        sortBy: {
+            type: 'array',
+            description: `Sort keys`,
+            items: { type: 'string' }
+        },
+        orderBy: {
+            type: 'array',
+            description: `Order keys[desc|asc]`,
+            items: { type: 'string' }
+        },
+        match: { type: 'object' },
+        terms: { type: 'object' }
+      }
+    }
   }
 }

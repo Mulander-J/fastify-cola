@@ -20,20 +20,39 @@ const humanitySchema = {
     fault: false
 }
 
-exports.esQuery = async (fastify,req, reply) => {
-    try {
-        const { body } = await fastify.elastic.search({
-            index: _indexName,
-            type: _typeName,
-            body: {
-                // query: { match: { text: req.query.q }}
-            }
-        })
-        
-        return body.hits.hits
-    } catch (err) {
-        throw boom.boomify(err)
+exports.esLogCaller = (fastify,req,reply)=>{
+    const {
+        time_fr='',time_to='',
+        sortBy=[],orderBy=[],
+        match={},
+        terms={}
+    } = req.body
+
+    let _body = {
+        index: _indexName,
+        type: _typeName,
     }
+    //  handle match
+    if(Object.keys(match).length>0){
+        (_body['query']||(_body['query']={}))
+        _body['query']['match'] = match
+    }
+    //  handle range
+    if(time_fr&&time_to){
+        _r["timestamp"] = {
+            "gte": time_fr,
+            "lte": time_to,
+            "format": "dd/MM/yyyy||yyyy"
+        }
+        (_body['query']||(_body['query']={}))
+        _body['query']['sort'] = _r
+    }
+    //  handle sort & order
+    let _s_k = sortBy.length<=0 ? ['timestamp','level'] : sortBy
+    let _s = _s_k.map((e,n)=>({[e]:{"order": orderBy[n] || 'desc'}}))
+    _body['sort'] = _s
+
+    return esQuery(fastify,_body)
 }
 
 exports.esWrCaller = async(fastify, req,reply)=>{
@@ -48,6 +67,16 @@ exports.esWrCaller = async(fastify, req,reply)=>{
         })
     }
     return false
+}
+
+const esQuery = async (fastify,payloads) => {
+    try {
+        console.log('[ payloads ] >', payloads)
+        const { body } = await fastify.elastic.search(payloads)
+        return body?.hits?.hits || []
+    } catch (err) {
+        throw boom.boomify(err)
+    }
 }
 
 const esWrite = async (fastify, data) => {

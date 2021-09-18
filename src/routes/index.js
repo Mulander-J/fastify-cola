@@ -22,7 +22,7 @@ module.exports = function (fastify, opts, done) {
     fastify.get('/jieba', { schema: schemaCommon.jieba }, commonController.getJieba)
     fastify.get('/encode', { schema: schemaCommon.encode }, commonController.myEncode)
     fastify.get('/decode/:code', { schema: schemaCommon.decode }, commonController.myDecode)
-    fastify.get('/es', { schema: schemaCommon.esQuery }, (req,reply)=>(esDocCtrller.esQuery(fastify,req,reply)))
+    fastify.post('/es', { schema: schemaCommon.esQuery }, (req,reply)=>(esDocCtrller.esLogCaller(fastify,req,reply)))
     /*User API*/
     fastify.get('/user', { schema: schemaUser.list }, userController.getUsers)
     fastify.post('/user', { schema: schemaUser.add }, userController.addUser)
