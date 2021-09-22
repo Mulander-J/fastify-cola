@@ -22,9 +22,9 @@ const humanitySchema = {
 
 exports.esLogCaller = (fastify,req,reply)=>{
     const {
+        search={},
         time_fr='',time_to='',
-        sortBy=[],orderBy=[],
-        search={}
+        sortBy=[],orderBy=[]
     } = req.body
 
     let _body = {
