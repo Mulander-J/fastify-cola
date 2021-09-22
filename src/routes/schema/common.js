@@ -86,6 +86,14 @@ module.exports = {
         search: { 
           type: 'object',
           description: `{k:v}`,
+        },
+        pageSize: {
+          type: 'number',
+          description: `Page Limit | 10`
+        },
+        pageNo: {
+          type: 'number',
+          description: `Page from | 1`
         }
       }
     }

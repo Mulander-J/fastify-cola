@@ -24,9 +24,12 @@ exports.esLogCaller = (fastify,req,reply)=>{
     const {
         search={},
         time_fr='',time_to='',
+        pageSize=10,pageNo=1,
         sortBy=[],orderBy=[]
     } = req.body
 
+    let _ps = pageSize >0 ? pageSize : 10
+    let _pf = pageNo >0 ? pageNo : 1
     let _body = {
         "query":{
             "bool":{
@@ -35,6 +38,8 @@ exports.esLogCaller = (fastify,req,reply)=>{
             }
         },
         "sort":[],
+        "from":(_pf-1)*_ps,
+        "size":_ps,
     }
     //  handle match
     const keysSearch = Object.keys(search)
