@@ -17,42 +17,52 @@ const humanitySchema = {
     content: '',
     remark: '',
     level: 1,
-    fault: false
+    statusCode:-1
 }
 
 exports.esLogCaller = (fastify,req,reply)=>{
     const {
         time_fr='',time_to='',
         sortBy=[],orderBy=[],
-        match={},
-        terms={}
+        search={}
     } = req.body
 
     let _body = {
-        index: _indexName,
-        type: _typeName,
+        "query":{
+            "bool":{
+                "must":[],
+                "filter":[]
+            }
+        },
+        "sort":[],
     }
     //  handle match
-    if(Object.keys(match).length>0){
-        (_body['query']||(_body['query']={}))
-        _body['query']['match'] = match
-    }
+    const keysSearch = Object.keys(search)
+    _body.query.bool.must = (keysSearch||[]).map(e=>({"match":{[e]:search[e]}}))
     //  handle range
     if(time_fr&&time_to){
-        _r["timestamp"] = {
-            "gte": time_fr,
-            "lte": time_to,
-            "format": "dd/MM/yyyy||yyyy"
-        }
-        (_body['query']||(_body['query']={}))
-        _body['query']['sort'] = _r
+        _body.query.bool.filter.push({
+            "range":{
+                "timestamp":{
+                    "gte": time_fr,
+                    "lte": time_to,
+                    "format": "dd/MM/yyyy||yyyy"
+                }
+            }
+        })
     }
     //  handle sort & order
-    let _s_k = sortBy.length<=0 ? ['timestamp','level'] : sortBy
-    let _s = _s_k.map((e,n)=>({[e]:{"order": orderBy[n] || 'desc'}}))
-    _body['sort'] = _s
+    const _s_k = sortBy.length<=0 ? ['level','timestamp'] : sortBy
+    let _s = _s_k.map((e,n)=>({
+        [e]:{order:orderBy?.[n] || 'desc'}
+    }))
+    _body.sort = _s
 
-    return esQuery(fastify,_body)
+    return esQuery(fastify,{
+        index: _indexName,
+        type: _typeName,
+        body: _body
+    })
 }
 
 exports.esWrCaller = async(fastify, req,reply)=>{
@@ -62,8 +72,8 @@ exports.esWrCaller = async(fastify, req,reply)=>{
     if(cuslog){
         return esWrite(fastify,{
             ...cuslog,
-            source:`[${method}]${url}`,
-            fault: statusCode && statusCode != '200'
+            statusCode: Number(statusCode) || -1,
+            source:`[${method}]${url}`
         })
     }
     return false
@@ -71,7 +81,7 @@ exports.esWrCaller = async(fastify, req,reply)=>{
 
 const esQuery = async (fastify,payloads) => {
     try {
-        console.log('[ payloads ] >', payloads)
+        console.log('[ payloads ] >', JSON.stringify(payloads))
         const { body } = await fastify.elastic.search(payloads)
         return body?.hits?.hits || []
     } catch (err) {

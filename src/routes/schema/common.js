@@ -83,8 +83,7 @@ module.exports = {
             description: `Order keys[desc|asc]`,
             items: { type: 'string' }
         },
-        match: { type: 'object' },
-        terms: { type: 'object' }
+        search: { type: 'object' }
       }
     }
   }
